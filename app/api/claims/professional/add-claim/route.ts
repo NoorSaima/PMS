@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "@/app/lib/getSession";
-import { CommonApi } from "@/app/lib/api/apiHelper";
+import { getAccessToken } from "@/lib/getServerSession";
+import { CommonApi } from "@/lib/api/apiHelper";
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 
 export async function POST(req: NextRequest) {
     try {
-        const session = await getSession();
-        const token = session.user?.token;
+        // Retrieve access token from server-side auth
+        const token = await getAccessToken();
 
         if (!token) {
             return NextResponse.json(
